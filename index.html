@@ -41,6 +41,35 @@
             z-index: 5
         }
 
+        .lang-switch {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            display: flex;
+            gap: 0;
+            background: #ffffff22;
+            border-radius: 99px;
+            padding: 2px
+        }
+
+        .lang-switch button {
+            border: 0;
+            background: transparent;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 99px;
+            cursor: pointer;
+            opacity: .6
+        }
+
+        .lang-switch button.active {
+            background: #fff;
+            color: #1428a0;
+            opacity: 1
+        }
+
         header h1 {
             font-size: 21px;
             margin: 0 0 5px
@@ -498,31 +527,35 @@
 <body>
 
     <header>
+        <div class="lang-switch">
+            <button id="langVi" class="active" onclick="setLang('vi')">Vie</button>
+            <button id="langEn" onclick="setLang('en')">Eng</button>
+        </div>
         <h1>SEHC Olympic 2026</h1>
-        <p>Đăng ký tham gia hội thao dành cho nhân viên SEHC</p>
+        <p data-i18n="headerSubtitle">Đăng ký tham gia hội thao dành cho nhân viên SEHC</p>
     </header>
 
     <div class="wrap">
 
         <nav class="tabs">
 
-            <button class="tab active" data-page="info">
+            <button class="tab active" data-page="info" data-i18n="tabInfo">
                 Thông tin
             </button>
 
-            <button class="tab" data-page="stats">
+            <button class="tab" data-page="stats" data-i18n="tabStats">
                 Thống kê
             </button>
 
-            <button class="tab" data-page="register">
+            <button class="tab" data-page="register" data-i18n="tabRegister">
                 Đăng ký
             </button>
 
-            <button class="tab" data-page="deposit">
+            <button class="tab" data-page="deposit" data-i18n="tabDeposit">
                 Ký quỹ
             </button>
 
-            <button class="tab" data-page="contact">
+            <button class="tab" data-page="contact" data-i18n="tabContact">
                 Liên hệ
             </button>
 
@@ -537,13 +570,13 @@
 
             <div class="card">
 
-                <h2>Đội đã đăng ký</h2>
+                <h2 data-i18n="statsTitle">Đội đã đăng ký</h2>
 
                 <div id="statCards" class="stats"></div>
 
                 <div class="realtime-status">
                     <span id="realtimeDot" class="realtime-dot"></span>
-                    <span id="realtimeText">Đang kết nối dữ liệu...</span>
+                    <span id="realtimeText" data-i18n="rtConnecting">Đang kết nối dữ liệu...</span>
                 </div>
 
             </div>
@@ -555,20 +588,20 @@
 
                     <div class="field">
 
-                        <label>Lọc theo môn</label>
+                        <label data-i18n="filterSport">Lọc theo môn</label>
 
                         <select id="filterSport">
-                            <option value="">Tất cả môn</option>
+                            <option value="" data-i18n="allSports">Tất cả môn</option>
                         </select>
 
                     </div>
 
                     <div class="field">
 
-                        <label>Lọc theo nội dung</label>
+                        <label data-i18n="filterContent">Lọc theo nội dung</label>
 
                         <select id="filterContent">
-                            <option value="">Tất cả nội dung</option>
+                            <option value="" data-i18n="allContents">Tất cả nội dung</option>
                         </select>
 
                     </div>
@@ -576,7 +609,7 @@
                 </div>
 
                 <div id="teamList">
-                    <div class="empty">Đang tải...</div>
+                    <div class="empty" data-i18n="loading">Đang tải...</div>
                 </div>
 
             </div>
@@ -592,14 +625,14 @@
 
             <form id="regForm" class="card" style="padding-bottom:60px">
 
-                <h2>Đăng ký đội thi đấu</h2>
+                <h2 data-i18n="regTitle">Đăng ký đội thi đấu</h2>
 
 
                 <div class="grid">
 
                     <div class="field">
 
-                        <label>Môn thể thao *</label>
+                        <label data-i18n="regSport">Môn thể thao *</label>
 
                         <select id="sport" required></select>
 
@@ -608,7 +641,7 @@
 
                     <div class="field">
 
-                        <label>Nội dung thi đấu *</label>
+                        <label data-i18n="regContent">Nội dung thi đấu *</label>
 
                         <select id="content" required></select>
 
@@ -619,9 +652,9 @@
 
                 <div class="field">
 
-                    <label>Tên đội *</label>
+                    <label data-i18n="regTeamName">Tên đội *</label>
 
-                    <input id="teamName" maxlength="20" required placeholder="Ví dụ: Avengers">
+                    <input id="teamName" maxlength="20" required data-i18n-ph="phTeamName" placeholder="Ví dụ: Avengers">
 
 
                 </div>
@@ -632,9 +665,9 @@
 
                 <div class="field">
 
-                    <label>SĐT đội trưởng *</label>
+                    <label data-i18n="regPhone">SĐT đội trưởng *</label>
 
-                    <input id="captainPhone" inputmode="tel" maxlength="16" required placeholder="Ví dụ: 0901234567">
+                    <input id="captainPhone" inputmode="tel" maxlength="16" required data-i18n-ph="phPhone" placeholder="Ví dụ: 0901234567">
 
                 </div>
 
@@ -642,7 +675,7 @@
                 <div id="formMsg" class="notice"></div>
 
 
-                <button id="submitBtn" class="btn" type="submit">
+                <button id="submitBtn" class="btn" type="submit" data-i18n="btnSubmit">
 
                     XÁC NHẬN ĐĂNG KÝ
 
@@ -663,9 +696,9 @@
 
                 <div class="icon">🏦</div>
 
-                <h2>Ký quỹ tham gia</h2>
+                <h2 data-i18n="depositTitle">Ký quỹ tham gia</h2>
 
-                <p>
+                <p data-i18n-html="depositIntro">
                     Các đội đã đăng ký tham gia vui lòng chuyển khoản
                     <b>tiền ký quỹ 100.000 đồng/đội</b> theo thông tin bên dưới.
                 </p>
@@ -675,29 +708,29 @@
                      alt="QR chuyển khoản ký quỹ 100.000đ">
 
                 <div class="deposit-info">
-                    <p><b>Tên tài khoản:</b> NGUYEN THANH Long</p>
-                    <p><b>Số tài khoản:</b> 8829763773</p>
-                    <p><b>Ngân hàng:</b> BIDV</p>
+                    <p><b data-i18n="lblAccName">Tên tài khoản:</b> NGUYEN THANH LONG</p>
+                    <p><b data-i18n="lblAccNum">Số tài khoản:</b> 8829763773</p>
+                    <p><b data-i18n="lblBank">Ngân hàng:</b> BIDV</p>
                 </div>
 
                 <div class="deposit-guide">
-                    <p>
+                    <p data-i18n-html="depGuide1">
                         Các đội đã đăng ký tham gia vui lòng đóng
                         <b>tiền ký quỹ 100.000 đồng/đội</b> nhằm đảm bảo cam kết
                         tham gia cuộc thi.
                     </p>
                     <ul>
-                        <li>
+                        <li data-i18n-html="depGuide2">
                             Khoản tiền ký quỹ sẽ được
                             <b>hoàn trả đầy đủ sau khi cuộc thi kết thúc</b>.
                         </li>
-                        <li>
+                        <li data-i18n-html="depGuide3">
                             Trường hợp đội <b>hủy đăng ký, không tham gia hoặc
                             vắng mặt tại thời điểm thi đấu</b>, khoản tiền ký quỹ
                             sẽ <b>không được hoàn lại</b>.
                         </li>
                     </ul>
-                    <p>
+                    <p data-i18n="depGuide4">
                         Rất mong các đội phối hợp thực hiện để Ban Tổ chức thuận
                         tiện trong công tác chuẩn bị và tổ chức cuộc thi.
                     </p>
@@ -717,54 +750,54 @@
 
             <div class="info-hero">
                 <div class="icon">🏆</div>
-                <h2>Thông tin Olympic 2026</h2>
-                <p>Thông tin chi tiết các bộ môn thi đấu</p>
+                <h2 data-i18n="infoHeroTitle">Thông tin Olympic 2026</h2>
+                <p data-i18n="infoHeroSub">Thông tin chi tiết các bộ môn thi đấu</p>
             </div>
 
             <div class="card">
 
-                <h2>Danh sách bộ môn thi đấu</h2>
+                <h2 data-i18n="infoTableTitle">Danh sách bộ môn thi đấu</h2>
 
                 <div style="overflow-x:auto">
                     <table class="info-table">
                         <thead>
                             <tr>
-                                <th>Bộ môn</th>
-                                <th>Số đội tối thiểu</th>
-                                <th>Thành viên/đội</th>
-                                <th>Địa điểm thi đấu</th>
+                                <th data-i18n="thSport">Bộ môn</th>
+                                <th data-i18n="thMinTeams">Số đội tối thiểu</th>
+                                <th data-i18n="thMembers">Thành viên/đội</th>
+                                <th data-i18n="thLocation">Địa điểm thi đấu</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="sport-name">📱 Liên Quân mobile</td>
-                                <td><span class="info-badge">16 đội</span></td>
-                                <td>5 người</td>
-                                <td><span class="info-loc">🏢 Tòa nhà Admin</span></td>
+                                <td class="sport-name">📱 Liên Quân - Arena of Velor</td>
+                                <td><span class="info-badge" data-i18n="badge16">16 đội</span></td>
+                                <td data-i18n="m5">5 người</td>
+                                <td><span class="info-loc" data-i18n="locAdmin">🏢 Tòa nhà Admin</span></td>
                             </tr>
                             <tr>
-                                <td class="sport-name">🏒 Bi lắc</td>
-                                <td><span class="info-badge">16 đội</span></td>
-                                <td>4 người</td>
-                                <td><span class="info-loc">🏢 Tòa nhà Admin</span></td>
+                                <td class="sport-name">🏒 Bi lắc-Foosball</td>
+                                <td><span class="info-badge" data-i18n="badge16">16 đội</span></td>
+                                <td data-i18n="m4">4 người</td>
+                                <td><span class="info-loc" data-i18n="locAdmin">🏢 Tòa nhà Admin</span></td>
                             </tr>
                             <tr>
-                                <td class="sport-name">🎱 Bi-da</td>
-                                <td><span class="info-badge">16 đội</span></td>
-                                <td>4 người</td>
-                                <td><span class="info-loc">🌳 Sân ngoài</span></td>
+                                <td class="sport-name">🎱 1-cushion carom billiards</td>
+                                <td><span class="info-badge" data-i18n="badge16">16 đội</span></td>
+                                <td data-i18n="m4">4 người</td>
+                                <td><span class="info-loc" data-i18n="locOutdoor">🌳 Sân ngoài</span></td>
                             </tr>
                             <tr>
-                                <td class="sport-name">🏸 Cầu lông</td>
-                                <td><span class="info-badge">16 đội/nội dung</span></td>
-                                <td>2 người</td>
-                                <td><span class="info-loc">🌳 Sân ngoài</span></td>
+                                <td class="sport-name">🏸 Cầu lông-Badminton</td>
+                                <td><span class="info-badge" data-i18n="badge16c">16 đội/nội dung</span></td>
+                                <td data-i18n="m2">2 người</td>
+                                <td><span class="info-loc" data-i18n="locOutdoor">🌳 Sân ngoài</span></td>
                             </tr>
                             <tr>
                                 <td class="sport-name">🏓 Pickleball</td>
-                                <td><span class="info-badge">16 đội/nội dung</span></td>
-                                <td>2 người</td>
-                                <td><span class="info-loc">🌳 Sân ngoài</span></td>
+                                <td><span class="info-badge" data-i18n="badge16c">16 đội/nội dung</span></td>
+                                <td data-i18n="m2">2 người</td>
+                                <td><span class="info-loc" data-i18n="locOutdoor">🌳 Sân ngoài</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -774,7 +807,7 @@
 
             <div class="info-note">
                 <span class="info-note-icon">⚽</span>
-                <div>
+                <div data-i18n-html="infoNote">
                     <b>Lưu ý:</b> Riêng bộ môn <b>Bóng đá nam/nữ</b>,
                     các đội đăng ký bằng <b>Knox approval</b>.
                 </div>
@@ -791,25 +824,25 @@
 
             <div class="card contact">
 
-                <h2>Liên hệ Ban tổ chức</h2>
+                <h2 data-i18n="contactTitle">Liên hệ Ban tổ chức</h2>
 
                 <p><b>Thành Long</b></p>
 
                 <p>
-                    Email:
+                    <span data-i18n="lblEmail">Email:</span>
                     <a href="mailto:thanhlong.ng@samsung.com">
                         thanhlong.ng@samsung.com
                     </a>
                 </p>
 
                 <p>
-                    Điện thoại:
+                    <span data-i18n="lblPhone">Điện thoại:</span>
                     <a href="tel:+84868203487">
                         +84 868 203 487
                     </a>
                 </p>
 
-                <p class="small">
+                <p class="small" data-i18n="contactNote">
                     Vui lòng liên hệ BTC nếu cần xóa hoặc điều chỉnh thông tin đăng ký.
                 </p>
 
@@ -898,6 +931,212 @@
             document.querySelectorAll(selector);
 
 
+        /* ============================================================
+           I18N — Internationalization (VI / EN)
+        ============================================================ */
+
+        const I18N = {
+
+            vi: {
+
+                headerSubtitle: 'Đăng ký tham gia hội thao dành cho nhân viên SEHC',
+                tabInfo: 'Thông tin',
+                tabStats: 'Thống kê',
+                tabRegister: 'Đăng ký',
+                tabDeposit: 'Ký quỹ',
+                tabContact: 'Liên hệ',
+
+                statsTitle: 'Đội đã đăng ký',
+                rtConnecting: 'Đang kết nối dữ liệu...',
+                rtConnected: 'Dữ liệu realtime',
+                rtReconnecting: 'Đang kết nối lại...',
+                filterSport: 'Lọc theo môn',
+                filterContent: 'Lọc theo nội dung',
+                allSports: 'Tất cả môn',
+                allContents: 'Tất cả nội dung',
+                loading: 'Đang tải...',
+                noTeams: 'Chưa có đội đăng ký.',
+
+                regTitle: 'Đăng ký đội thi đấu',
+                regSport: 'Môn thể thao *',
+                regContent: 'Nội dung thi đấu *',
+                regTeamName: 'Tên đội *',
+                regPhone: 'SĐT đội trưởng *',
+                phTeamName: 'Ví dụ: Avengers',
+                phPhone: 'Ví dụ: 0901234567',
+                btnSubmit: 'XÁC NHẬN ĐĂNG KÝ',
+                captain: 'Đội trưởng',
+                lblEmpId: 'Mã NV',
+                lblFullName: 'Họ tên',
+                phEmpId: '8 chữ số',
+                phFullName: 'Họ và tên',
+
+                depositTitle: 'Ký quỹ tham gia',
+                depositIntro: 'Các đội đã đăng ký tham gia vui lòng chuyển khoản <b>tiền ký quỹ 100.000 đồng/đội</b> theo thông tin bên dưới.',
+                lblAccName: 'Tên tài khoản:',
+                lblAccNum: 'Số tài khoản:',
+                lblBank: 'Ngân hàng:',
+                depGuide1: 'Các đội đã đăng ký tham gia vui lòng đóng <b>tiền ký quỹ 100.000 đồng/đội</b> nhằm đảm bảo cam kết tham gia cuộc thi.',
+                depGuide2: 'Khoản tiền ký quỹ sẽ được <b>hoàn trả đầy đủ sau khi cuộc thi kết thúc</b>.',
+                depGuide3: 'Trường hợp đội <b>hủy đăng ký, không tham gia hoặc vắng mặt tại thời điểm thi đấu</b>, khoản tiền ký quỹ sẽ <b>không được hoàn lại</b>.',
+                depGuide4: 'Rất mong các đội phối hợp thực hiện để Ban Tổ chức thuận tiện trong công tác chuẩn bị và tổ chức cuộc thi.',
+
+                infoHeroTitle: 'Thông tin Olympic 2026',
+                infoHeroSub: 'Thông tin chi tiết các bộ môn thi đấu',
+                infoTableTitle: 'Danh sách bộ môn thi đấu',
+                thSport: 'Bộ môn',
+                thMinTeams: 'Số đội tối thiểu',
+                thMembers: 'Thành viên/đội',
+                thLocation: 'Địa điểm thi đấu',
+                badge16: '16 đội',
+                badge16c: '16 đội/nội dung',
+                m2: '2 người',
+                m4: '4 người',
+                m5: '5 người',
+                locAdmin: '🏢 Tòa nhà Admin',
+                locOutdoor: '🌳 Sân ngoài',
+                infoNote: '<b>Lưu ý:</b> Riêng bộ môn <b>Bóng đá nam/nữ</b>, các đội đăng ký bằng <b>Knox approval</b>.',
+
+                contactTitle: 'Liên hệ Ban tổ chức',
+                lblEmail: 'Email:',
+                lblPhone: 'Điện thoại:',
+                contactNote: 'Vui lòng liên hệ BTC nếu cần xóa hoặc điều chỉnh thông tin đăng ký.',
+
+                submitting: 'ĐANG GỬI...',
+                errEmpId: 'Mã nhân viên Player {n} phải đúng 8 chữ số.',
+                errDupId: 'Trong cùng một đội không được có mã nhân viên trùng nhau.',
+                errPrefix: 'Không thể đăng ký: ',
+                errConn: 'Có lỗi kết nối. Vui lòng thử lại.',
+                successMsg: 'Đăng ký thành công!<br>Mã đăng ký: <b>{code}</b>'
+
+            },
+
+            en: {
+
+                headerSubtitle: 'Sports event registration for SEHC employees',
+                tabInfo: 'Info',
+                tabStats: 'Stats',
+                tabRegister: 'Register',
+                tabDeposit: 'Deposit',
+                tabContact: 'Contact',
+
+                statsTitle: 'Registered Teams',
+                rtConnecting: 'Connecting...',
+                rtConnected: 'Realtime data',
+                rtReconnecting: 'Reconnecting...',
+                filterSport: 'Filter by sport',
+                filterContent: 'Filter by event',
+                allSports: 'All sports',
+                allContents: 'All events',
+                loading: 'Loading...',
+                noTeams: 'No teams registered yet.',
+
+                regTitle: 'Register Your Team',
+                regSport: 'Sport *',
+                regContent: 'Event *',
+                regTeamName: 'Team name *',
+                regPhone: 'Captain phone *',
+                phTeamName: 'e.g. Avengers',
+                phPhone: 'e.g. 0901234567',
+                btnSubmit: 'SUBMIT REGISTRATION',
+                captain: 'Captain',
+                lblEmpId: 'Employee ID',
+                lblFullName: 'Full name',
+                phEmpId: '8 digits',
+                phFullName: 'Full name',
+
+                depositTitle: 'Participation Deposit',
+                depositIntro: 'Registered teams please transfer the <b>deposit of 100,000 VND/team</b> using the info below.',
+                lblAccName: 'Account name:',
+                lblAccNum: 'Account number:',
+                lblBank: 'Bank:',
+                depGuide1: 'Registered teams are required to pay a <b>deposit of 100,000 VND/team</b> to ensure commitment to participate.',
+                depGuide2: 'The deposit will be <b>fully refunded after the event ends</b>.',
+                depGuide3: 'If a team <b>cancels registration, does not participate, or is absent at competition time</b>, the deposit will <b>not be refunded</b>.',
+                depGuide4: 'We appreciate your cooperation to help the Organizing Committee prepare and run the event smoothly.',
+
+                infoHeroTitle: 'Olympic 2026 Info',
+                infoHeroSub: 'Detailed information on all competition sports',
+                infoTableTitle: 'List of Competition Sports',
+                thSport: 'Sport',
+                thMinTeams: 'Min. teams',
+                thMembers: 'Members/team',
+                thLocation: 'Venue',
+                badge16: '16 teams',
+                badge16c: '16 teams/event',
+                m2: '2 players',
+                m4: '4 players',
+                m5: '5 players',
+                locAdmin: '🏢 Admin Building',
+                locOutdoor: '🌳 Outdoor Court',
+                infoNote: '<b>Note:</b> For <b>Football (Men/Women)</b>, teams must register via <b>Knox approval</b>.',
+
+                contactTitle: 'Contact Organizing Committee',
+                lblEmail: 'Email:',
+                lblPhone: 'Phone:',
+                contactNote: 'Please contact the OC if you need to delete or modify your registration.',
+
+                submitting: 'SUBMITTING...',
+                errEmpId: 'Employee ID for Player {n} must be exactly 8 digits.',
+                errDupId: 'Duplicate employee IDs are not allowed within the same team.',
+                errPrefix: 'Registration failed: ',
+                errConn: 'Connection error. Please try again.',
+                successMsg: 'Registration successful!<br>Registration code: <b>{code}</b>'
+
+            }
+
+        };
+
+        let currentLang = 'vi';
+
+        function t(key, vars) {
+            let s = I18N[currentLang][key] || I18N.vi[key] || key;
+            if (vars) {
+                Object.keys(vars).forEach(k => {
+                    s = s.replace('{' + k + '}', vars[k]);
+                });
+            }
+            return s;
+        }
+
+        function applyLang(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+
+            $$('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.textContent = t(key);
+            });
+
+            $$('[data-i18n-html]').forEach(el => {
+                const key = el.getAttribute('data-i18n-html');
+                el.innerHTML = t(key);
+            });
+
+            $$('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                el.placeholder = t(key);
+            });
+
+            $('#langVi').classList.toggle('active', lang === 'vi');
+            $('#langEn').classList.toggle('active', lang === 'en');
+
+            updateForm();
+
+            if (rows.length) renderStats();
+        }
+
+        function setLang(lang) {
+            applyLang(lang);
+            localStorage.setItem('olympic-lang', lang);
+        }
+
+        const savedLang = localStorage.getItem('olympic-lang');
+        if (savedLang === 'en' || savedLang === 'vi') {
+            currentLang = savedLang;
+        }
+
+
         function esc(value = '') {
 
             return String(value).replace(
@@ -972,6 +1211,10 @@
                             index === 0;
 
 
+                        const roleLabel = isCaptain ? t('captain') : 'Player ' + number;
+                        const empLabel = roleLabel + ' - ' + t('lblEmpId') + ' *';
+                        const nameLabel = roleLabel + ' - ' + t('lblFullName') + ' *';
+
                         return `
 
         <div class="grid">
@@ -979,10 +1222,7 @@
           <div class="field">
 
             <label>
-              ${isCaptain
-                                ? 'Đội trưởng'
-                                : 'Player ' + number}
-              - Mã NV *
+              ${esc(empLabel)}
             </label>
 
             <input
@@ -991,7 +1231,7 @@
               pattern="[0-9]{8}"
               maxlength="8"
               required
-              placeholder="8 chữ số">
+              placeholder="${esc(t('phEmpId'))}">
 
           </div>
 
@@ -999,17 +1239,14 @@
           <div class="field">
 
             <label>
-              ${isCaptain
-                                ? 'Đội trưởng'
-                                : 'Player ' + number}
-              - Họ tên *
+              ${esc(nameLabel)}
             </label>
 
             <input
               id="p${number}name"
               maxlength="100"
               required
-              placeholder="Họ và tên">
+              placeholder="${esc(t('phFullName'))}">
 
           </div>
 
@@ -1268,7 +1505,7 @@
             if (!list.length) {
 
                 $('#teamList').innerHTML =
-                    '<div class="empty">Chưa có đội đăng ký.</div>';
+                    '<div class="empty">' + esc(t('noTeams')) + '</div>';
 
                 return;
 
@@ -1363,7 +1600,7 @@
                 content.value;
 
             content.innerHTML =
-                '<option value="">Tất cả nội dung</option>';
+                '<option value="">' + esc(t('allContents')) + '</option>';
 
 
             if (sport && SPORTS[sport]) {
@@ -1468,7 +1705,7 @@
                     if (!/^\d{8}$/.test(id)) {
 
                         msg.textContent =
-                            `Mã nhân viên Player ${i} phải đúng 8 chữ số.`;
+                            t('errEmpId', { n: i });
 
                         msg.className =
                             'notice bad';
@@ -1494,7 +1731,7 @@
                 ) {
 
                     msg.textContent =
-                        'Trong cùng một đội không được có mã nhân viên trùng nhau.';
+                        t('errDupId');
 
                     msg.className =
                         'notice bad';
@@ -1597,7 +1834,7 @@
                 button.disabled = true;
 
                 button.textContent =
-                    'ĐANG GỬI...';
+                    t('submitting');
 
 
                 try {
@@ -1623,7 +1860,7 @@
                         msg.textContent =
                             error.message.includes('đã đăng ký')
                                 ? error.message
-                                : 'Không thể đăng ký: ' +
+                                : t('errPrefix') +
                                 error.message;
 
 
@@ -1643,15 +1880,8 @@
                      */
 
 
-                    msg.innerHTML = `
-
-        Đăng ký thành công!<br>
-
-        Mã đăng ký:
-
-        <b>${esc(data)}</b>
-
-      `;
+                    msg.innerHTML =
+                        t('successMsg', { code: esc(data) });
 
 
                     msg.className =
@@ -1688,7 +1918,7 @@
 
 
                     msg.textContent =
-                        'Có lỗi kết nối. Vui lòng thử lại.';
+                        t('errConn');
 
 
                     msg.className =
@@ -1701,7 +1931,7 @@
                     button.disabled = false;
 
                     button.textContent =
-                        'XÁC NHẬN ĐĂNG KÝ';
+                        t('btnSubmit');
 
 
                 }
@@ -1791,7 +2021,7 @@
                     );
 
                     text.textContent =
-                        'Dữ liệu realtime';
+                        t('rtConnected');
 
                 } else if (
                     status === 'CHANNEL_ERROR' ||
@@ -1803,7 +2033,7 @@
                     );
 
                     text.textContent =
-                        'Đang kết nối lại...';
+                        t('rtReconnecting');
 
                 }
 
@@ -1813,6 +2043,8 @@
         /* ============================================================
            INITIAL LOAD
         ============================================================ */
+
+        applyLang(currentLang);
 
         loadStats();
 
