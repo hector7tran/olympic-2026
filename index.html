@@ -1,662 +1,976 @@
 <!doctype html>
 <html lang="vi">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 
-<title>SEHC Olympic 2026</title>
+    <title>SEHC Olympic 2026</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
-:root{
-  --bg:#f4f7fb;
-  --card:#fff;
-  --text:#172033;
-  --muted:#6b7280;
-  --brand:#1428a0;
-  --line:#e5e7eb;
-  --ok:#087f5b;
-  --bad:#c92a2a;
-}
+    <style>
+        :root {
+            --bg: #f4f7fb;
+            --card: #fff;
+            --text: #172033;
+            --muted: #6b7280;
+            --brand: #1428a0;
+            --line: #e5e7eb;
+            --ok: #087f5b;
+            --bad: #c92a2a;
+        }
 
-*{box-sizing:border-box}
+        * {
+            box-sizing: border-box
+        }
 
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text)
-}
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text)
+        }
 
-header{
-  background:linear-gradient(135deg,#1428a0,#2748d8);
-  color:#fff;
-  padding:22px 18px 16px;
-  position:sticky;
-  top:0;
-  z-index:5
-}
+        header {
+            background: linear-gradient(135deg, #1428a0, #2748d8);
+            color: #fff;
+            padding: 22px 18px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 5
+        }
 
-header h1{
-  font-size:21px;
-  margin:0 0 5px
-}
+        header h1 {
+            font-size: 21px;
+            margin: 0 0 5px
+        }
 
-header p{
-  margin:0;
-  opacity:.85;
-  font-size:13px
-}
+        header p {
+            margin: 0;
+            opacity: .85;
+            font-size: 13px
+        }
 
-.wrap{
-  max-width:900px;
-  margin:auto;
-  padding:14px
-}
+        .wrap {
+            max-width: 900px;
+            margin: auto;
+            padding: 14px
+        }
 
-.tabs{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:7px;
-  margin:0 0 14px
-}
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            margin: 0 0 14px
+        }
 
-.tab{
-  border:0;
-  border-radius:12px;
-  background:#fff;
-  padding:10px 5px;
-  font-weight:700;
-  color:#5b6475;
-  box-shadow:0 1px 5px #0000000c;
-  cursor:pointer
-}
+        .tab {
+            border: 0;
+            border-radius: 12px;
+            background: #fff;
+            padding: 10px 5px;
+            font-weight: 700;
+            color: #5b6475;
+            box-shadow: 0 1px 5px #0000000c;
+            cursor: pointer
+        }
 
-.tab.active{
-  background:#1428a0;
-  color:#fff
-}
+        .tab.active {
+            background: #1428a0;
+            color: #fff
+        }
 
-.page{
-  display:none
-}
+        .page {
+            display: none
+        }
 
-.page.active{
-  display:block
-}
+        .page.active {
+            display: block
+        }
 
-.card{
-  background:var(--card);
-  border-radius:16px;
-  padding:16px;
-  margin-bottom:12px;
-  box-shadow:0 2px 12px #18233a0c;
-  border:1px solid #edf0f5
-}
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 12px #18233a0c;
+            border: 1px solid #edf0f5
+        }
 
-.card h2{
-  font-size:17px;
-  margin:0 0 12px
-}
+        .card h2 {
+            font-size: 17px;
+            margin: 0 0 12px
+        }
 
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px
-}
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
 
-.field{
-  margin-bottom:11px
-}
+        .field {
+            margin-bottom: 11px
+        }
 
-.field label{
-  display:block;
-  font-size:13px;
-  font-weight:700;
-  margin:0 0 5px
-}
+        .field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            margin: 0 0 5px
+        }
 
-.field input,
-.field select{
-  width:100%;
-  border:1px solid #d9dee8;
-  border-radius:10px;
-  padding:12px;
-  font-size:16px;
-  background:#fff
-}
+        .field input,
+        .field select {
+            width: 100%;
+            border: 1px solid #d9dee8;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 16px;
+            background: #fff
+        }
 
-.field input:focus,
-.field select:focus{
-  outline:2px solid #b9c5ff;
-  border-color:#1428a0
-}
+        .field input:focus,
+        .field select:focus {
+            outline: 2px solid #b9c5ff;
+            border-color: #1428a0
+        }
 
-.btn{
-  width:100%;
-  border:0;
-  border-radius:11px;
-  padding:13px;
-  font-size:15px;
-  font-weight:800;
-  background:#1428a0;
-  color:#fff;
-  cursor:pointer
-}
+        .btn {
+            width: 100%;
+            border: 0;
+            border-radius: 11px;
+            padding: 13px;
+            font-size: 15px;
+            font-weight: 800;
+            background: #1428a0;
+            color: #fff;
+            cursor: pointer
+        }
 
-.btn:disabled{
-  opacity:.5;
-  cursor:not-allowed
-}
+        .btn:disabled {
+            opacity: .5;
+            cursor: not-allowed
+        }
 
-.notice{
-  padding:11px;
-  border-radius:10px;
-  font-size:14px;
-  margin:10px 0;
-  display:none
-}
+        .notice {
+            padding: 11px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin: 10px 0;
+            display: none
+        }
 
-.notice.ok{
-  display:block;
-  background:#e6fcf5;
-  color:var(--ok)
-}
+        .notice.ok {
+            display: block;
+            background: #e6fcf5;
+            color: var(--ok)
+        }
 
-.notice.bad{
-  display:block;
-  background:#fff5f5;
-  color:var(--bad)
-}
+        .notice.bad {
+            display: block;
+            background: #fff5f5;
+            color: var(--bad)
+        }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:9px
-}
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 9px
+        }
 
-.stat{
-  background:#f8f9ff;
-  border-radius:12px;
-  padding:12px
-}
+        .stat-group {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            user-select: none;
+            transition: background .15s
+        }
 
-.stat b{
-  font-size:22px;
-  display:block;
-  color:#1428a0
-}
+        .stat-group:hover {
+            background: #eef1ff
+        }
 
-.stat span{
-  font-size:12px;
-  color:var(--muted)
-}
+        .stat-group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
 
-.team{
-  border-top:1px solid var(--line);
-  padding:11px 0
-}
+        .stat-group-title {
+            font-weight: 700;
+            font-size: 14px
+        }
 
-.team:first-child{
-  border-top:0
-}
+        .stat-group-count {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1428a0
+        }
 
-.team-title{
-  font-weight:800
-}
+        .stat-group-arrow {
+            font-size: 11px;
+            color: var(--muted);
+            text-align: center;
+            margin-top: 4px;
+            transition: transform .2s
+        }
 
-.small{
-  font-size:12px;
-  color:var(--muted)
-}
+        .stat-group.expanded .stat-group-arrow {
+            transform: rotate(180deg)
+        }
 
-.pill{
-  display:inline-block;
-  padding:4px 8px;
-  background:#eef1ff;
-  color:#1428a0;
-  border-radius:99px;
-  font-size:11px;
-  font-weight:700;
-  margin:3px 3px 0 0
-}
+        .stat-group-body {
+            display: none;
+            margin-top: 8px;
+            border-top: 1px solid var(--line);
+            padding-top: 8px
+        }
 
-.empty{
-  text-align:center;
-  color:var(--muted);
-  padding:25px 5px
-}
+        .stat-group.expanded .stat-group-body {
+            display: block
+        }
 
-.deposit{
-  padding:25px 10px;
-  text-align:center
-}
+        .stat-content-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            font-size: 13px
+        }
 
-.deposit .icon{
-  font-size:42px
-}
+        .stat-content-row span {
+            color: var(--muted)
+        }
 
-.contact a{
-  color:#1428a0;
-  font-weight:700;
-  text-decoration:none
-}
+        .stat-content-row b {
+            color: #1428a0
+        }
 
-.realtime-status{
-  font-size:11px;
-  color:var(--muted);
-  margin-top:8px;
-  text-align:right
-}
+        .team {
+            border-top: 1px solid var(--line);
+            padding: 11px 0
+        }
 
-.realtime-dot{
-  display:inline-block;
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:#adb5bd;
-  margin-right:4px
-}
+        .team:first-child {
+            border-top: 0
+        }
 
-.realtime-dot.connected{
-  background:#12b886
-}
+        .team-title {
+            font-weight: 800
+        }
 
-@media(max-width:620px){
+        .small {
+            font-size: 12px;
+            color: var(--muted)
+        }
 
-  .grid{
-    grid-template-columns:1fr
-  }
+        .pill {
+            display: inline-block;
+            padding: 4px 8px;
+            background: #eef1ff;
+            color: #1428a0;
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 700;
+            margin: 3px 3px 0 0
+        }
 
-  .tabs{
-    grid-template-columns:repeat(4,1fr)
-  }
+        .empty {
+            text-align: center;
+            color: var(--muted);
+            padding: 25px 5px
+        }
 
-  .tab{
-    font-size:11px;
-    padding:9px 2px
-  }
+        .deposit {
+            padding: 20px 14px;
+            text-align: center
+        }
 
-  .wrap{
-    padding:10px
-  }
+        .deposit .icon {
+            font-size: 42px
+        }
 
-  .card{
-    padding:14px
-  }
+        .deposit-qr {
+            width: 220px;
+            max-width: 70vw;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            margin: 8px auto 4px;
+            display: block
+        }
 
-  .stats{
-    grid-template-columns:1fr 1fr
-  }
+        .deposit-info {
+            text-align: left;
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin: 14px 0;
+            font-size: 14px;
+            line-height: 1.7
+        }
 
-}
-</style>
+        .deposit-info b {
+            color: #1428a0
+        }
+
+        .deposit-guide {
+            text-align: left;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-top: 10px
+        }
+
+        .deposit-guide ul {
+            margin: 6px 0;
+            padding-left: 20px
+        }
+
+        .deposit-guide li {
+            margin-bottom: 4px
+        }
+
+
+        .contact a {
+            color: #1428a0;
+            font-weight: 700;
+            text-decoration: none
+        }
+
+        /* ---- Info (Thông tin Olympic) ---- */
+
+        .info-hero {
+            background: linear-gradient(135deg, #1428a0, #2748d8);
+            color: #fff;
+            border-radius: 16px;
+            padding: 24px 18px;
+            text-align: center;
+            margin-bottom: 12px
+        }
+
+        .info-hero .icon {
+            font-size: 38px
+        }
+
+        .info-hero h2 {
+            margin: 8px 0 4px;
+            font-size: 19px
+        }
+
+        .info-hero p {
+            margin: 0;
+            opacity: .85;
+            font-size: 13px
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px
+        }
+
+        .info-table thead th {
+            background: #1428a0;
+            color: #fff;
+            padding: 10px 8px;
+            font-weight: 700;
+            font-size: 12px;
+            text-align: left;
+            white-space: nowrap
+        }
+
+        .info-table thead th:first-child {
+            border-radius: 8px 0 0 0
+        }
+
+        .info-table thead th:last-child {
+            border-radius: 0 8px 0 0;
+            text-align: left
+        }
+
+        .info-table tbody td {
+            padding: 11px 8px;
+            border-bottom: 1px solid var(--line);
+            vertical-align: middle
+        }
+
+        .info-table tbody tr:nth-child(even) {
+            background: #f8f9ff
+        }
+
+        .info-table tbody tr:last-child td {
+            border-bottom: 0
+        }
+
+        .info-table .sport-name {
+            font-weight: 700;
+            color: #1428a0
+        }
+
+        .info-badge {
+            display: inline-block;
+            background: #eef1ff;
+            color: #1428a0;
+            border-radius: 99px;
+            padding: 3px 10px;
+            font-size: 12px;
+            font-weight: 700
+        }
+
+        .info-note {
+            background: #fff8e6;
+            border: 1px solid #ffe08a;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #8a6d00;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start
+        }
+
+        .info-note .info-note-icon {
+            font-size: 18px;
+            flex-shrink: 0
+        }
+
+        .info-loc {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px
+        }
+
+        .realtime-status {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 8px;
+            text-align: right
+        }
+
+        .realtime-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #adb5bd;
+            margin-right: 4px
+        }
+
+        .realtime-dot.connected {
+            background: #12b886
+        }
+
+        @media(max-width:620px) {
+
+            .grid {
+                grid-template-columns: 1fr
+            }
+
+            .tabs {
+                grid-template-columns: repeat(5, 1fr)
+            }
+
+            .tab {
+                font-size: 10px;
+                padding: 9px 2px
+            }
+
+            .wrap {
+                padding: 10px
+            }
+
+            .card {
+                padding: 14px
+            }
+
+            .stats {
+                grid-template-columns: 1fr
+            }
+
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-  <h1>SEHC Olympic 2026</h1>
-  <p>Đăng ký tham gia hội thao dành cho nhân viên SEHC</p>
-</header>
+    <header>
+        <h1>SEHC Olympic 2026</h1>
+        <p>Đăng ký tham gia hội thao dành cho nhân viên SEHC</p>
+    </header>
 
-<div class="wrap">
+    <div class="wrap">
 
-<nav class="tabs">
+        <nav class="tabs">
 
-  <button class="tab active" data-page="stats">
-    Thống kê
-  </button>
+            <button class="tab active" data-page="info">
+                Thông tin
+            </button>
 
-  <button class="tab" data-page="register">
-    Đăng ký
-  </button>
+            <button class="tab" data-page="stats">
+                Thống kê
+            </button>
 
-  <button class="tab" data-page="deposit">
-    Ký quỹ
-  </button>
+            <button class="tab" data-page="register">
+                Đăng ký
+            </button>
 
-  <button class="tab" data-page="contact">
-    Liên hệ
-  </button>
+            <button class="tab" data-page="deposit">
+                Ký quỹ
+            </button>
 
-</nav>
+            <button class="tab" data-page="contact">
+                Liên hệ
+            </button>
+
+        </nav>
 
 
-<!-- ========================= -->
-<!-- THỐNG KÊ -->
-<!-- ========================= -->
+        <!-- ========================= -->
+        <!-- THỐNG KÊ -->
+        <!-- ========================= -->
 
-<section id="stats" class="page active">
+        <section id="stats" class="page">
 
-  <div class="card">
+            <div class="card">
 
-    <h2>Đội đã đăng ký</h2>
+                <h2>Đội đã đăng ký</h2>
 
-    <div id="statCards" class="stats"></div>
+                <div id="statCards" class="stats"></div>
 
-    <div class="realtime-status">
-      <span id="realtimeDot" class="realtime-dot"></span>
-      <span id="realtimeText">Đang kết nối dữ liệu...</span>
+                <div class="realtime-status">
+                    <span id="realtimeDot" class="realtime-dot"></span>
+                    <span id="realtimeText">Đang kết nối dữ liệu...</span>
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="grid">
+
+                    <div class="field">
+
+                        <label>Lọc theo môn</label>
+
+                        <select id="filterSport">
+                            <option value="">Tất cả môn</option>
+                        </select>
+
+                    </div>
+
+                    <div class="field">
+
+                        <label>Lọc theo nội dung</label>
+
+                        <select id="filterContent">
+                            <option value="">Tất cả nội dung</option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div id="teamList">
+                    <div class="empty">Đang tải...</div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- ĐĂNG KÝ -->
+        <!-- ========================= -->
+
+        <section id="register" class="page">
+
+            <form id="regForm" class="card">
+
+                <h2>Đăng ký đội thi đấu</h2>
+
+
+                <div class="grid">
+
+                    <div class="field">
+
+                        <label>Môn thể thao *</label>
+
+                        <select id="sport" required></select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>Nội dung thi đấu *</label>
+
+                        <select id="content" required></select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Tên đội *</label>
+
+                    <input id="teamName" maxlength="20" required placeholder="Ví dụ: Avengers">
+
+
+                </div>
+
+
+                <div id="players"></div>
+
+
+                <div class="field">
+
+                    <label>SĐT đội trưởng *</label>
+
+                    <input id="captainPhone" inputmode="tel" maxlength="16" required placeholder="Ví dụ: 0901234567">
+
+                </div>
+
+
+                <div id="formMsg" class="notice"></div>
+
+
+                <button id="submitBtn" class="btn" type="submit">
+
+                    XÁC NHẬN ĐĂNG KÝ
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- KÝ QUỸ -->
+        <!-- ========================= -->
+
+        <section id="deposit" class="page">
+
+            <div class="card deposit">
+
+                <div class="icon">🏦</div>
+
+                <h2>Ký quỹ tham gia</h2>
+
+                <p>
+                    Các đội đã đăng ký tham gia vui lòng chuyển khoản
+                    <b>tiền ký quỹ 100.000 đồng/đội</b> theo thông tin bên dưới.
+                </p>
+
+                <img class="deposit-qr"
+                     src="image/qr-code-100k.jpg"
+                     alt="QR chuyển khoản ký quỹ 100.000đ">
+
+                <div class="deposit-info">
+                    <p><b>Tên tài khoản:</b> NGUYEN THANH Long</p>
+                    <p><b>Số tài khoản:</b> 8829763773</p>
+                    <p><b>Ngân hàng:</b> BIDV</p>
+                </div>
+
+                <div class="deposit-guide">
+                    <p>
+                        Các đội đã đăng ký tham gia vui lòng đóng
+                        <b>tiền ký quỹ 100.000 đồng/đội</b> nhằm đảm bảo cam kết
+                        tham gia cuộc thi.
+                    </p>
+                    <ul>
+                        <li>
+                            Khoản tiền ký quỹ sẽ được
+                            <b>hoàn trả đầy đủ sau khi cuộc thi kết thúc</b>.
+                        </li>
+                        <li>
+                            Trường hợp đội <b>hủy đăng ký, không tham gia hoặc
+                            vắng mặt tại thời điểm thi đấu</b>, khoản tiền ký quỹ
+                            sẽ <b>không được hoàn lại</b>.
+                        </li>
+                    </ul>
+                    <p>
+                        Rất mong các đội phối hợp thực hiện để Ban Tổ chức thuận
+                        tiện trong công tác chuẩn bị và tổ chức cuộc thi.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================= -->
+        <!-- THÔNG TIN OLYMPIC -->
+        <!-- ========================= -->
+
+        <section id="info" class="page active">
+
+            <div class="info-hero">
+                <div class="icon">🏆</div>
+                <h2>Thông tin Olympic 2026</h2>
+                <p>Thông tin chi tiết các bộ môn thi đấu</p>
+            </div>
+
+            <div class="card">
+
+                <h2>Danh sách bộ môn thi đấu</h2>
+
+                <div style="overflow-x:auto">
+                    <table class="info-table">
+                        <thead>
+                            <tr>
+                                <th>Bộ môn</th>
+                                <th>Số đội tối thiểu</th>
+                                <th>Thành viên/đội</th>
+                                <th>Địa điểm thi đấu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="sport-name">📱 Liên Quân mobile</td>
+                                <td><span class="info-badge">16 đội</span></td>
+                                <td>5 người</td>
+                                <td><span class="info-loc">🏢 Tòa nhà Admin</span></td>
+                            </tr>
+                            <tr>
+                                <td class="sport-name">🏒 Bi lắc</td>
+                                <td><span class="info-badge">16 đội</span></td>
+                                <td>4 người</td>
+                                <td><span class="info-loc">🏢 Tòa nhà Admin</span></td>
+                            </tr>
+                            <tr>
+                                <td class="sport-name">🎱 Bi-da</td>
+                                <td><span class="info-badge">16 đội</span></td>
+                                <td>4 người</td>
+                                <td><span class="info-loc">🌳 Sân ngoài</span></td>
+                            </tr>
+                            <tr>
+                                <td class="sport-name">🏸 Cầu lông</td>
+                                <td><span class="info-badge">16 đội/nội dung</span></td>
+                                <td>2 người</td>
+                                <td><span class="info-loc">🌳 Sân ngoài</span></td>
+                            </tr>
+                            <tr>
+                                <td class="sport-name">🏓 Pickleball</td>
+                                <td><span class="info-badge">16 đội/nội dung</span></td>
+                                <td>2 người</td>
+                                <td><span class="info-loc">🌳 Sân ngoài</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="info-note">
+                <span class="info-note-icon">⚽</span>
+                <div>
+                    <b>Lưu ý:</b> Riêng bộ môn <b>Bóng đá nam/nữ</b>,
+                    các đội đăng ký bằng <b>Knox approval</b>.
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- CONTACT -->
+        <!-- ========================= -->
+
+        <section id="contact" class="page">
+
+            <div class="card contact">
+
+                <h2>Liên hệ Ban tổ chức</h2>
+
+                <p><b>Thành Long</b></p>
+
+                <p>
+                    Email:
+                    <a href="mailto:thanhlong.ng@samsung.com">
+                        thanhlong.ng@samsung.com
+                    </a>
+                </p>
+
+                <p>
+                    Điện thoại:
+                    <a href="tel:+84868203487">
+                        +84 868 203 487
+                    </a>
+                </p>
+
+                <p class="small">
+                    Vui lòng liên hệ BTC nếu cần xóa hoặc điều chỉnh thông tin đăng ký.
+                </p>
+
+            </div>
+
+        </section>
+
     </div>
 
-  </div>
 
+    <script>
 
-  <div class="card">
+        /* ============================================================
+           SUPABASE
+        ============================================================ */
 
-    <div class="field">
+        const SUPABASE_URL =
+            'https://zvyukjmuddzqkpjatinn.supabase.co';
 
-      <label>Lọc theo môn</label>
+        const SUPABASE_ANON_KEY =
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp2eXVram11ZGR6cWtwamF0aW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2NzA3NDEsImV4cCI6MjEwMjI0Njc0MX0.kTFdDFitfm3WSfhZEG8h_tCwSs-KCwk9JE0Jfcp7iL0';
 
-      <select id="filterSport">
-        <option value="">Tất cả môn</option>
-      </select>
 
-    </div>
+        const db = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY
+        );
 
-    <div id="teamList">
-      <div class="empty">Đang tải...</div>
-    </div>
 
-  </div>
+        /* ============================================================
+           SPORTS CONFIG
+        ============================================================ */
 
-</section>
+        const SPORTS = {
 
+            'Liên Quân mobile': {
+                contents: [
+                    'Đồng đội (5 người)'
+                ],
+                players: 5
+            },
 
-<!-- ========================= -->
-<!-- ĐĂNG KÝ -->
-<!-- ========================= -->
+            'Bi lắc': {
+                contents: [
+                    'Đồng đội (4 người)'
+                ],
+                players: 4
+            },
 
-<section id="register" class="page">
+            'Bi-da': {
+                contents: [
+                    'Đồng đội (4 người)'
+                ],
+                players: 4
+            },
 
-<form id="regForm" class="card">
+            'Cầu lông': {
+                contents: [
+                    'Đôi nam',
+                    'Đôi nữ',
+                    'Đôi nam nữ'
+                ],
+                players: 2
+            },
 
-<h2>Đăng ký đội thi đấu</h2>
+            'Pickleball': {
+                contents: [
+                    'Đôi nam',
+                    'Đôi nữ',
+                    'Đôi nam nữ'
+                ],
+                players: 2
+            }
 
+        };
 
-<div class="grid">
 
-<div class="field">
+        /* ============================================================
+           HELPERS
+        ============================================================ */
 
-<label>Môn thể thao *</label>
+        const $ = selector =>
+            document.querySelector(selector);
 
-<select id="sport" required></select>
+        const $$ = selector =>
+            document.querySelectorAll(selector);
 
-</div>
 
+        function esc(value = '') {
 
-<div class="field">
+            return String(value).replace(
+                /[&<>'"]/g,
+                char => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[char])
+            );
 
-<label>Nội dung thi đấu *</label>
+        }
 
-<select id="content" required></select>
 
-</div>
+        /* ============================================================
+           INITIALIZE SPORTS
+        ============================================================ */
 
-</div>
+        Object.keys(SPORTS).forEach(sport => {
 
+            $('#sport').add(
+                new Option(sport, sport)
+            );
 
-<div class="field">
+            $('#filterSport').add(
+                new Option(sport, sport)
+            );
 
-<label>Tên đội *</label>
+        });
 
-<input
-id="teamName"
-maxlength="80"
-required
-placeholder="Ví dụ: Avengers">
 
-</div>
+        /* ============================================================
+           DYNAMIC REGISTRATION FORM
+        ============================================================ */
 
+        function updateForm() {
 
-<div id="players"></div>
+            const sport = $('#sport').value;
+            const content = $('#content');
 
+            if (!sport || !SPORTS[sport]) {
+                return;
+            }
 
-<div class="field">
 
-<label>SĐT đội trưởng *</label>
+            content.innerHTML = '';
 
-<input
-id="captainPhone"
-inputmode="tel"
-maxlength="16"
-required
-placeholder="Ví dụ: 0901234567">
 
-</div>
+            SPORTS[sport].contents.forEach(item => {
 
+                content.add(
+                    new Option(item, item)
+                );
 
-<div id="formMsg" class="notice"></div>
+            });
 
 
-<button
-id="submitBtn"
-class="btn"
-type="submit">
+            const numberPlayers =
+                SPORTS[sport].players;
 
-XÁC NHẬN ĐĂNG KÝ
 
-</button>
+            $('#players').innerHTML =
+                Array.from(
+                    { length: numberPlayers },
+                    (_, index) => {
 
-</form>
+                        const number = index + 1;
 
-</section>
+                        const isCaptain =
+                            index === 0;
 
 
-<!-- ========================= -->
-<!-- KÝ QUỸ -->
-<!-- ========================= -->
-
-<section id="deposit" class="page">
-
-<div class="card deposit">
-
-<div class="icon">🏦</div>
-
-<h2>Ký quỹ tham gia</h2>
-
-<p>
-Tính năng chuyển khoản QR và tự động xác nhận ký quỹ
-100.000đ sẽ được triển khai ở phiên bản tiếp theo.
-</p>
-
-</div>
-
-</section>
-
-
-<!-- ========================= -->
-<!-- CONTACT -->
-<!-- ========================= -->
-
-<section id="contact" class="page">
-
-<div class="card contact">
-
-<h2>Liên hệ Ban tổ chức</h2>
-
-<p><b>Thành Long</b></p>
-
-<p>
-Email:
-<a href="mailto:thanhlong.ng@samsung.com">
-thanhlong.ng@samsung.com
-</a>
-</p>
-
-<p>
-Điện thoại:
-<a href="tel:+84868203487">
-+84 868 203 487
-</a>
-</p>
-
-<p class="small">
-Vui lòng liên hệ BTC nếu cần xóa hoặc điều chỉnh thông tin đăng ký.
-</p>
-
-</div>
-
-</section>
-
-</div>
-
-
-<script>
-
-/* ============================================================
-   SUPABASE
-============================================================ */
-
-const SUPABASE_URL =
-'https://zvyukjmuddzqkpjatinn.supabase.co';
-
-const SUPABASE_ANON_KEY =
-'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp2eXVram11ZGR6cWtwamF0aW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2NzA3NDEsImV4cCI6MjEwMjI0Njc0MX0.kTFdDFitfm3WSfhZEG8h_tCwSs-KCwk9JE0Jfcp7iL0';
-
-
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
-
-
-/* ============================================================
-   SPORTS CONFIG
-============================================================ */
-
-const SPORTS = {
-
-  'Liên Quân mobile':{
-    contents:[
-      'Đồng đội (5 người)'
-    ],
-    players:5
-  },
-
-  'Bi lắc':{
-    contents:[
-      'Đồng đội (4 người)'
-    ],
-    players:4
-  },
-
-  'Bi-da':{
-    contents:[
-      'Đồng đội (4 người)'
-    ],
-    players:4
-  },
-
-  'Cầu lông':{
-    contents:[
-      'Đôi nam',
-      'Đôi nữ',
-      'Đôi nam nữ'
-    ],
-    players:2
-  },
-
-  'Pickleball':{
-    contents:[
-      'Đôi nam',
-      'Đôi nữ',
-      'Đôi nam nữ'
-    ],
-    players:2
-  }
-
-};
-
-
-/* ============================================================
-   HELPERS
-============================================================ */
-
-const $ = selector =>
-  document.querySelector(selector);
-
-const $$ = selector =>
-  document.querySelectorAll(selector);
-
-
-function esc(value=''){
-
-  return String(value).replace(
-    /[&<>'"]/g,
-    char => ({
-      '&':'&amp;',
-      '<':'&lt;',
-      '>':'&gt;',
-      "'":'&#39;',
-      '"':'&quot;'
-    }[char])
-  );
-
-}
-
-
-/* ============================================================
-   INITIALIZE SPORTS
-============================================================ */
-
-Object.keys(SPORTS).forEach(sport => {
-
-  $('#sport').add(
-    new Option(sport,sport)
-  );
-
-  $('#filterSport').add(
-    new Option(sport,sport)
-  );
-
-});
-
-
-/* ============================================================
-   DYNAMIC REGISTRATION FORM
-============================================================ */
-
-function updateForm(){
-
-  const sport = $('#sport').value;
-  const content = $('#content');
-
-  if(!sport || !SPORTS[sport]){
-    return;
-  }
-
-
-  content.innerHTML = '';
-
-
-  SPORTS[sport].contents.forEach(item => {
-
-    content.add(
-      new Option(item,item)
-    );
-
-  });
-
-
-  const numberPlayers =
-    SPORTS[sport].players;
-
-
-  $('#players').innerHTML =
-    Array.from(
-      {length:numberPlayers},
-      (_,index) => {
-
-        const number = index + 1;
-
-        const isCaptain =
-          index === 0;
-
-
-        return `
+                        return `
 
         <div class="grid">
 
@@ -664,8 +978,8 @@ function updateForm(){
 
             <label>
               ${isCaptain
-                ? 'Đội trưởng'
-                : 'Player ' + number}
+                                ? 'Đội trưởng'
+                                : 'Player ' + number}
               - Mã NV *
             </label>
 
@@ -684,8 +998,8 @@ function updateForm(){
 
             <label>
               ${isCaptain
-                ? 'Đội trưởng'
-                : 'Player ' + number}
+                                ? 'Đội trưởng'
+                                : 'Player ' + number}
               - Họ tên *
             </label>
 
@@ -701,225 +1015,259 @@ function updateForm(){
 
         `;
 
-      }
+                    }
 
-    ).join('');
+                ).join('');
 
-}
-
-
-$('#sport').addEventListener(
-  'change',
-  updateForm
-);
+        }
 
 
-updateForm();
+        $('#sport').addEventListener(
+            'change',
+            updateForm
+        );
 
 
-/* ============================================================
-   TAB NAVIGATION
-============================================================ */
-
-$$('.tab').forEach(button => {
-
-  button.addEventListener(
-    'click',
-    async () => {
-
-      $$('.tab').forEach(tab =>
-        tab.classList.remove('active')
-      );
+        updateForm();
 
 
-      $$('.page').forEach(page =>
-        page.classList.remove('active')
-      );
+        /* ============================================================
+           TAB NAVIGATION
+        ============================================================ */
+
+        $$('.tab').forEach(button => {
+
+            button.addEventListener(
+                'click',
+                async () => {
+
+                    $$('.tab').forEach(tab =>
+                        tab.classList.remove('active')
+                    );
 
 
-      button.classList.add('active');
+                    $$('.page').forEach(page =>
+                        page.classList.remove('active')
+                    );
 
 
-      const targetPage =
-        $('#' + button.dataset.page);
+                    button.classList.add('active');
 
 
-      if(targetPage){
-        targetPage.classList.add('active');
-      }
+                    const targetPage =
+                        $('#' + button.dataset.page);
 
 
-      /*
-       * Khi user mở tab Thống kê,
-       * luôn lấy dữ liệu mới nhất.
-       */
-
-      if(button.dataset.page === 'stats'){
-
-        await loadStats();
-
-      }
-
-    }
-
-  );
-
-});
+                    if (targetPage) {
+                        targetPage.classList.add('active');
+                    }
 
 
-/* ============================================================
-   DATA
-============================================================ */
+                    /*
+                     * Khi user mở tab Thống kê,
+                     * luôn lấy dữ liệu mới nhất.
+                     */
 
-let rows = [];
+                    if (button.dataset.page === 'stats') {
 
+                        await loadStats();
 
-/* ============================================================
-   LOAD LATEST DATA
-============================================================ */
+                    }
 
-async function loadStats(){
+                }
 
-  try{
+            );
 
-    const {
-      data,
-      error
-    } = await db.rpc(
-      'get_public_registrations'
-    );
+        });
 
 
-    if(error){
+        /* ============================================================
+           DATA
+        ============================================================ */
 
-      console.error(
-        'loadStats error:',
-        error
-      );
+        let rows = [];
 
 
-      $('#teamList').innerHTML =
-        `<div class="notice bad">
+        /* ============================================================
+           LOAD LATEST DATA
+        ============================================================ */
+
+        async function loadStats() {
+
+            try {
+
+                const {
+                    data,
+                    error
+                } = await db.rpc(
+                    'get_public_registrations'
+                );
+
+
+                if (error) {
+
+                    console.error(
+                        'loadStats error:',
+                        error
+                    );
+
+
+                    $('#teamList').innerHTML =
+                        `<div class="notice bad">
           ${esc(error.message)}
         </div>`;
 
-      return;
+                    return;
 
-    }
-
-
-    rows = data || [];
+                }
 
 
-    renderStats();
+                rows = data || [];
 
 
-  }catch(error){
-
-    console.error(
-      'Unexpected loadStats error:',
-      error
-    );
-
-  }
-
-}
+                renderStats();
 
 
-/* ============================================================
-   RENDER STATS
-============================================================ */
+            } catch (error) {
 
-function renderStats(){
+                console.error(
+                    'Unexpected loadStats error:',
+                    error
+                );
 
-  const counts = {};
+            }
 
-
-  Object.keys(SPORTS).forEach(sport => {
-
-    counts[sport] =
-      rows.filter(
-        row => row.sport === sport
-      ).length;
-
-  });
+        }
 
 
-  $('#statCards').innerHTML =
-    Object.entries(counts)
-      .map(([sport,count]) => `
+        /* ============================================================
+           RENDER STATS
+        ============================================================ */
 
-        <div class="stat">
+        function renderStats() {
 
-          <b>${count}</b>
+            /* ---- Expandable stat cards: sport → content ---- */
 
-          <span>
-            ${esc(sport)}
-          </span>
+            $('#statCards').innerHTML =
+                Object.keys(SPORTS)
+                    .map(sport => {
 
-        </div>
-
-      `)
-      .join('');
-
-
-  const filter =
-    $('#filterSport').value;
+                        const sportRows = rows.filter(
+                            row => row.sport === sport
+                        );
 
 
-  const list =
-    rows.filter(
-      row =>
-        !filter ||
-        row.sport === filter
-    );
+                        const contentRows =
+                            SPORTS[sport].contents
+                                .map(content => {
+
+                                    const c = sportRows.filter(
+                                        row =>
+                                            row.competition_content === content
+                                    ).length;
+
+                                    return `
+            <div class="stat-content-row">
+              <span>${esc(content)}</span>
+              <b>${c}</b>
+            </div>`;
+
+                                })
+                                .join('');
+
+                        return `
+
+        <div class="stat-group">
+          <div class="stat-group-header">
+            <span class="stat-group-title">${esc(sport)}</span>
+            <span class="stat-group-count">${sportRows.length}</span>
+          </div>
+          <div class="stat-group-body">
+            ${contentRows}
+          </div>
+          <div class="stat-group-arrow">▼</div>
+        </div>`;
+
+                    })
+                    .join('');
 
 
-  if(!list.length){
+            /* ---- Toggle expand on click ---- */
 
-    $('#teamList').innerHTML =
-      '<div class="empty">Chưa có đội đăng ký.</div>';
+            $$('.stat-group').forEach(group => {
 
-    return;
+                group.addEventListener(
+                    'click',
+                    () => group.classList.toggle('expanded')
+                );
 
-  }
-
-
-  $('#teamList').innerHTML =
-    list.map(row => {
+            });
 
 
-      const players =
-        [1,2,3,4,5]
-          .map(index => {
+            /* ---- Team list filtered by sport + content ---- */
 
-            if(index === 1){
+            const sportFilter =
+                $('#filterSport').value;
 
-              return {
-                id:row.captain_id,
-                name:row.captain_name
-              };
+            const contentFilter =
+                $('#filterContent').value;
+
+
+            const list =
+                rows.filter(
+                    row =>
+                        (!sportFilter ||
+                            row.sport === sportFilter) &&
+                        (!contentFilter ||
+                            row.competition_content === contentFilter)
+                );
+
+
+            if (!list.length) {
+
+                $('#teamList').innerHTML =
+                    '<div class="empty">Chưa có đội đăng ký.</div>';
+
+                return;
 
             }
 
 
-            return {
-
-              id:
-                row[`player${index}_id`],
-
-              name:
-                row[`player${index}_name`]
-
-            };
-
-          })
-          .filter(player =>
-            player.id
-          );
+            $('#teamList').innerHTML =
+                list.map(row => {
 
 
-      return `
+                    const players =
+                        [1, 2, 3, 4, 5]
+                            .map(index => {
+
+                                if (index === 1) {
+
+                                    return {
+                                        id: row.captain_id,
+                                        name: row.captain_name
+                                    };
+
+                                }
+
+
+                                return {
+
+                                    id:
+                                        row[`player${index}_id`],
+
+                                    name:
+                                        row[`player${index}_name`]
+
+                                };
+
+                            })
+                            .filter(player =>
+                                player.id
+                            );
+
+
+                    return `
 
       <div class="team">
 
@@ -953,249 +1301,307 @@ function renderStats(){
 
       `;
 
-    }).join('');
+                }).join('');
 
-}
+        }
 
 
-/* ============================================================
-   SPORT FILTER
-============================================================ */
+        /* ============================================================
+           FILTER
+        ============================================================ */
 
-$('#filterSport').addEventListener(
-  'change',
-  renderStats
-);
+        function updateFilterContent() {
 
+            const sport = $('#filterSport').value;
 
-/* ============================================================
-   REGISTRATION SUBMIT
-============================================================ */
+            const content =
+                $('#filterContent');
 
-$('#regForm').addEventListener(
-  'submit',
-  async event => {
+            const current =
+                content.value;
 
-    event.preventDefault();
+            content.innerHTML =
+                '<option value="">Tất cả nội dung</option>';
 
 
-    const msg =
-      $('#formMsg');
+            if (sport && SPORTS[sport]) {
 
-    const button =
-      $('#submitBtn');
+                SPORTS[sport].contents.forEach(item => {
 
+                    content.add(
+                        new Option(item, item)
+                    );
 
-    msg.className =
-      'notice';
+                });
 
+            }
 
-    const sport =
-      $('#sport').value;
 
+            /*
+             * Preserve selection if still valid,
+             * otherwise reset.
+             */
 
-    const numberPlayers =
-      SPORTS[sport].players;
+            if (
+                current &&
+                [...content.options].some(
+                    opt => opt.value === current
+                )
+            ) {
 
+                content.value = current;
 
-    const ids = [];
+            }
 
+        }
 
-    /*
-     * Validate Employee ID
-     */
 
-    for(
-      let i=1;
-      i<=numberPlayers;
-      i++
-    ){
+        $('#filterSport').addEventListener(
+            'change',
+            () => {
 
-      const id =
-        $(`#p${i}id`)
-          .value
-          .trim();
+                updateFilterContent();
 
+                renderStats();
 
-      if(!/^\d{8}$/.test(id)){
-
-        msg.textContent =
-          `Mã nhân viên Player ${i} phải đúng 8 chữ số.`;
-
-        msg.className =
-          'notice bad';
-
-        return;
-
-      }
-
-
-      ids.push(id);
-
-    }
-
-
-    /*
-     * Không cho duplicate ID
-     * trong cùng một đội.
-     */
-
-    if(
-      new Set(ids).size !==
-      ids.length
-    ){
-
-      msg.textContent =
-        'Trong cùng một đội không được có mã nhân viên trùng nhau.';
-
-      msg.className =
-        'notice bad';
-
-      return;
-
-    }
-
-
-    /* ========================================================
-       CREATE PAYLOAD
-    ======================================================== */
-
-    const payload = {
-
-      sport:sport,
-
-      competition_content:
-        $('#content').value,
-
-      team_name:
-        $('#teamName')
-          .value
-          .trim(),
-
-      captain_id:
-        ids[0],
-
-      captain_name:
-        $('#p1name')
-          .value
-          .trim(),
-
-      captain_phone:
-        $('#captainPhone')
-          .value
-          .trim(),
-
-      player2_id:
-        ids[1],
-
-      player2_name:
-        $('#p2name')
-          .value
-          .trim(),
-
-      player3_id:
-        numberPlayers >= 3
-          ? ids[2]
-          : null,
-
-      player3_name:
-        numberPlayers >= 3
-          ? $('#p3name').value.trim()
-          : null,
-
-      player4_id:
-        numberPlayers >= 4
-          ? ids[3]
-          : null,
-
-      player4_name:
-        numberPlayers >= 4
-          ? $('#p4name').value.trim()
-          : null,
-
-      player5_id:
-        numberPlayers >= 5
-          ? ids[4]
-          : null,
-
-      player5_name:
-        numberPlayers >= 5
-          ? $('#p5name').value.trim()
-          : null
-
-    };
-
-
-    /* ========================================================
-       CONVERT TO RPC PARAMETER NAMES
-    ======================================================== */
-
-    const rpcPayload = {};
-
-
-    Object.entries(payload)
-      .forEach(([key,value]) => {
-
-        rpcPayload['p_' + key] =
-          value;
-
-      });
-
-
-    /* ========================================================
-       SUBMIT
-    ======================================================== */
-
-    button.disabled = true;
-
-    button.textContent =
-      'ĐANG GỬI...';
-
-
-    try{
-
-
-      const {
-        data,
-        error
-      } = await db.rpc(
-        'register_team',
-        rpcPayload
-      );
-
-
-      if(error){
-
-        console.error(
-          'register_team error:',
-          error
+            }
         );
 
 
-        msg.textContent =
-          error.message.includes('đã đăng ký')
-            ? error.message
-            : 'Không thể đăng ký: ' +
-              error.message;
+        $('#filterContent').addEventListener(
+            'change',
+            renderStats
+        );
 
 
-        msg.className =
-          'notice bad';
+        /* ============================================================
+           REGISTRATION SUBMIT
+        ============================================================ */
+
+        $('#regForm').addEventListener(
+            'submit',
+            async event => {
+
+                event.preventDefault();
 
 
-        return;
+                const msg =
+                    $('#formMsg');
 
-      }
-
-
-      /*
-       * RPC hiện trả registration_code:
-       *
-       * 0001-15802497
-       */
+                const button =
+                    $('#submitBtn');
 
 
-      msg.innerHTML = `
+                msg.className =
+                    'notice';
+
+
+                const sport =
+                    $('#sport').value;
+
+
+                const numberPlayers =
+                    SPORTS[sport].players;
+
+
+                const ids = [];
+
+
+                /*
+                 * Validate Employee ID
+                 */
+
+                for (
+                    let i = 1;
+                    i <= numberPlayers;
+                    i++
+                ) {
+
+                    const id =
+                        $(`#p${i}id`)
+                            .value
+                            .trim();
+
+
+                    if (!/^\d{8}$/.test(id)) {
+
+                        msg.textContent =
+                            `Mã nhân viên Player ${i} phải đúng 8 chữ số.`;
+
+                        msg.className =
+                            'notice bad';
+
+                        return;
+
+                    }
+
+
+                    ids.push(id);
+
+                }
+
+
+                /*
+                 * Không cho duplicate ID
+                 * trong cùng một đội.
+                 */
+
+                if (
+                    new Set(ids).size !==
+                    ids.length
+                ) {
+
+                    msg.textContent =
+                        'Trong cùng một đội không được có mã nhân viên trùng nhau.';
+
+                    msg.className =
+                        'notice bad';
+
+                    return;
+
+                }
+
+
+                /* ========================================================
+                   CREATE PAYLOAD
+                ======================================================== */
+
+                const payload = {
+
+                    sport: sport,
+
+                    competition_content:
+                        $('#content').value,
+
+                    team_name:
+                        $('#teamName')
+                            .value
+                            .trim(),
+
+                    captain_id:
+                        ids[0],
+
+                    captain_name:
+                        $('#p1name')
+                            .value
+                            .trim(),
+
+                    captain_phone:
+                        $('#captainPhone')
+                            .value
+                            .trim(),
+
+                    player2_id:
+                        ids[1],
+
+                    player2_name:
+                        $('#p2name')
+                            .value
+                            .trim(),
+
+                    player3_id:
+                        numberPlayers >= 3
+                            ? ids[2]
+                            : null,
+
+                    player3_name:
+                        numberPlayers >= 3
+                            ? $('#p3name').value.trim()
+                            : null,
+
+                    player4_id:
+                        numberPlayers >= 4
+                            ? ids[3]
+                            : null,
+
+                    player4_name:
+                        numberPlayers >= 4
+                            ? $('#p4name').value.trim()
+                            : null,
+
+                    player5_id:
+                        numberPlayers >= 5
+                            ? ids[4]
+                            : null,
+
+                    player5_name:
+                        numberPlayers >= 5
+                            ? $('#p5name').value.trim()
+                            : null
+
+                };
+
+
+                /* ========================================================
+                   CONVERT TO RPC PARAMETER NAMES
+                ======================================================== */
+
+                const rpcPayload = {};
+
+
+                Object.entries(payload)
+                    .forEach(([key, value]) => {
+
+                        rpcPayload['p_' + key] =
+                            value;
+
+                    });
+
+
+                /* ========================================================
+                   SUBMIT
+                ======================================================== */
+
+                button.disabled = true;
+
+                button.textContent =
+                    'ĐANG GỬI...';
+
+
+                try {
+
+
+                    const {
+                        data,
+                        error
+                    } = await db.rpc(
+                        'register_team',
+                        rpcPayload
+                    );
+
+
+                    if (error) {
+
+                        console.error(
+                            'register_team error:',
+                            error
+                        );
+
+
+                        msg.textContent =
+                            error.message.includes('đã đăng ký')
+                                ? error.message
+                                : 'Không thể đăng ký: ' +
+                                error.message;
+
+
+                        msg.className =
+                            'notice bad';
+
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * RPC hiện trả registration_code:
+                     *
+                     * 0001-15802497
+                     */
+
+
+                    msg.innerHTML = `
 
         Đăng ký thành công!<br>
 
@@ -1206,212 +1612,213 @@ $('#regForm').addEventListener(
       `;
 
 
-      msg.className =
-        'notice ok';
+                    msg.className =
+                        'notice ok';
 
 
-      /*
-       * Reset form sau khi đăng ký.
-       */
+                    /*
+                     * Reset form sau khi đăng ký.
+                     */
 
-      event.target.reset();
+                    event.target.reset();
 
-      updateForm();
+                    updateForm();
 
 
-      /*
-       * QUAN TRỌNG:
-       *
-       * Không chờ Realtime.
-       * Máy vừa đăng ký sẽ chủ động
-       * lấy data mới ngay lập tức.
-       */
+                    /*
+                     * QUAN TRỌNG:
+                     *
+                     * Không chờ Realtime.
+                     * Máy vừa đăng ký sẽ chủ động
+                     * lấy data mới ngay lập tức.
+                     */
 
-      await loadStats();
+                    await loadStats();
 
 
-    }catch(error){
+                } catch (error) {
 
 
-      console.error(
-        'Submit error:',
-        error
-      );
+                    console.error(
+                        'Submit error:',
+                        error
+                    );
 
 
-      msg.textContent =
-        'Có lỗi kết nối. Vui lòng thử lại.';
+                    msg.textContent =
+                        'Có lỗi kết nối. Vui lòng thử lại.';
 
 
-      msg.className =
-        'notice bad';
+                    msg.className =
+                        'notice bad';
 
 
-    }finally{
+                } finally {
 
 
-      button.disabled = false;
+                    button.disabled = false;
 
-      button.textContent =
-        'XÁC NHẬN ĐĂNG KÝ';
+                    button.textContent =
+                        'XÁC NHẬN ĐĂNG KÝ';
 
 
-    }
+                }
 
-  }
+            }
 
-);
+        );
 
 
-/* ============================================================
-   SUPABASE REALTIME
-============================================================ */
+        /* ============================================================
+           SUPABASE REALTIME
+        ============================================================ */
 
-/*
- * Khi registrations có:
- *
- * INSERT
- * UPDATE
- * DELETE
- *
- * tất cả điện thoại đang mở website
- * sẽ nhận được event.
- *
- * Sau đó website gọi lại loadStats()
- * để lấy dữ liệu mới nhất.
- */
+        /*
+         * Khi registrations có:
+         *
+         * INSERT
+         * UPDATE
+         * DELETE
+         *
+         * tất cả điện thoại đang mở website
+         * sẽ nhận được event.
+         *
+         * Sau đó website gọi lại loadStats()
+         * để lấy dữ liệu mới nhất.
+         */
 
 
-const registrationChannel = db
-  .channel('olympic-registrations-realtime')
+        const registrationChannel = db
+            .channel('olympic-registrations-realtime')
 
-  .on(
+            .on(
 
-    'postgres_changes',
+                'postgres_changes',
 
-    {
+                {
 
-      event:'*',
+                    event: '*',
 
-      schema:'public',
+                    schema: 'public',
 
-      table:'registrations'
+                    table: 'registrations'
 
-    },
+                },
 
-    async payload => {
+                async payload => {
 
 
-      console.log(
-        'Realtime change:',
-        payload.eventType
-      );
+                    console.log(
+                        'Realtime change:',
+                        payload.eventType
+                    );
 
 
-      /*
-       * Lấy lại toàn bộ dữ liệu
-       * public mới nhất.
-       */
+                    /*
+                     * Lấy lại toàn bộ dữ liệu
+                     * public mới nhất.
+                     */
 
-      await loadStats();
+                    await loadStats();
 
 
-    }
+                }
 
-  )
+            )
 
-  .subscribe(status => {
+            .subscribe(status => {
 
 
-    console.log(
-      'Realtime status:',
-      status
-    );
+                console.log(
+                    'Realtime status:',
+                    status
+                );
 
 
-    const dot =
-      $('#realtimeDot');
+                const dot =
+                    $('#realtimeDot');
 
-    const text =
-      $('#realtimeText');
+                const text =
+                    $('#realtimeText');
 
 
-    if(status === 'SUBSCRIBED'){
+                if (status === 'SUBSCRIBED') {
 
-      dot.classList.add(
-        'connected'
-      );
+                    dot.classList.add(
+                        'connected'
+                    );
 
-      text.textContent =
-        'Dữ liệu realtime';
+                    text.textContent =
+                        'Dữ liệu realtime';
 
-    }else if(
-      status === 'CHANNEL_ERROR' ||
-      status === 'TIMED_OUT'
-    ){
+                } else if (
+                    status === 'CHANNEL_ERROR' ||
+                    status === 'TIMED_OUT'
+                ) {
 
-      dot.classList.remove(
-        'connected'
-      );
+                    dot.classList.remove(
+                        'connected'
+                    );
 
-      text.textContent =
-        'Đang kết nối lại...';
+                    text.textContent =
+                        'Đang kết nối lại...';
 
-    }
+                }
 
-  });
+            });
 
 
-/* ============================================================
-   INITIAL LOAD
-============================================================ */
+        /* ============================================================
+           INITIAL LOAD
+        ============================================================ */
 
-loadStats();
+        loadStats();
 
 
-/* ============================================================
-   REFRESH WHEN APP RETURNS TO FOREGROUND
-============================================================ */
+        /* ============================================================
+           REFRESH WHEN APP RETURNS TO FOREGROUND
+        ============================================================ */
 
-/*
- * Mobile Safari / Chrome có thể suspend
- * websocket khi user chuyển app hoặc khóa màn hình.
- *
- * Khi user quay lại website,
- * chủ động lấy data mới nhất.
- */
+        /*
+         * Mobile Safari / Chrome có thể suspend
+         * websocket khi user chuyển app hoặc khóa màn hình.
+         *
+         * Khi user quay lại website,
+         * chủ động lấy data mới nhất.
+         */
 
-document.addEventListener(
-  'visibilitychange',
-  () => {
+        document.addEventListener(
+            'visibilitychange',
+            () => {
 
-    if(
-      document.visibilityState ===
-      'visible'
-    ){
+                if (
+                    document.visibilityState ===
+                    'visible'
+                ) {
 
-      loadStats();
+                    loadStats();
 
-    }
+                }
 
-  }
-);
+            }
+        );
 
 
-/*
- * Trường hợp browser focus lại.
- */
+        /*
+         * Trường hợp browser focus lại.
+         */
 
-window.addEventListener(
-  'focus',
-  () => {
+        window.addEventListener(
+            'focus',
+            () => {
 
-    loadStats();
+                loadStats();
 
-  }
-);
+            }
+        );
 
-</script>
+    </script>
 
 </body>
+
 </html>
