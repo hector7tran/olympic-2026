@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 
     <title>SEHC Olympic 2026</title>
 
@@ -127,7 +127,8 @@
             border-radius: 10px;
             padding: 12px;
             font-size: 16px;
-            background: #fff
+            background: #fff;
+            scroll-margin-bottom: 120px
         }
 
         .field input:focus,
@@ -145,7 +146,8 @@
             font-weight: 800;
             background: #1428a0;
             color: #fff;
-            cursor: pointer
+            cursor: pointer;
+            scroll-margin-bottom: 120px
         }
 
         .btn:disabled {
@@ -588,7 +590,7 @@
 
         <section id="register" class="page">
 
-            <form id="regForm" class="card">
+            <form id="regForm" class="card" style="padding-bottom:60px">
 
                 <h2>Đăng ký đội thi đấu</h2>
 
@@ -673,7 +675,7 @@
                      alt="QR chuyển khoản ký quỹ 100.000đ">
 
                 <div class="deposit-info">
-                    <p><b>Tên tài khoản:</b> NGUYEN THANH LONG</p>
+                    <p><b>Tên tài khoản:</b> NGUYEN THANH Long</p>
                     <p><b>Số tài khoản:</b> 8829763773</p>
                     <p><b>Ngân hàng:</b> BIDV</p>
                 </div>
@@ -1029,6 +1031,46 @@
 
 
         updateForm();
+
+
+        /* ============================================================
+           MOBILE KEYBOARD UX — scroll active field to center
+        ============================================================ */
+
+        /*
+         * focusin bubbles (focus không bubbles),
+         * nên 1 listener duy nhất bắt được cả
+         * các input sinh động (player fields).
+         *
+         * Đợi 300ms cho keyboard animate lên,
+         * rồi scroll input ra giữa viewport
+         * để user luôn thấy text đang gõ.
+         */
+
+        document.addEventListener(
+            'focusin',
+            event => {
+
+                const el = event.target;
+
+                if (
+                    el.matches('input, select, textarea')
+                ) {
+
+                    setTimeout(
+                        () => {
+                            el.scrollIntoView({
+                                block: 'center',
+                                behavior: 'smooth'
+                            });
+                        },
+                        300
+                    );
+
+                }
+
+            }
+        );
 
 
         /* ============================================================
