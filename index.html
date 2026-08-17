@@ -292,6 +292,13 @@
             font-weight: 800
         }
 
+        .team-title .reg-code {
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--muted);
+            margin-left: 6px
+        }
+
         .small {
             font-size: 12px;
             color: var(--muted)
@@ -711,6 +718,10 @@
                     <p><b data-i18n="lblAccName">Tên tài khoản:</b> NGUYEN THANH LONG</p>
                     <p><b data-i18n="lblAccNum">Số tài khoản:</b> 8829763773</p>
                     <p><b data-i18n="lblBank">Ngân hàng:</b> BIDV</p>
+                    <p data-i18n-html="transferContent">
+                        <b>Nội dung chuyển khoản:</b> &lt;Nhập mã đăng ký&gt; mà hệ thống đã thông báo khi đăng ký thành công. Ví dụ: 0007-15802497<br>
+                        Nếu không nhớ, hãy xem lại ở Mục Thống kê.
+                    </p>
                 </div>
 
                 <div class="deposit-guide">
@@ -976,6 +987,7 @@
                 lblAccName: 'Tên tài khoản:',
                 lblAccNum: 'Số tài khoản:',
                 lblBank: 'Ngân hàng:',
+                transferContent: '<b>Nội dung chuyển khoản:</b> &lt;Nhập mã đăng ký&gt; mà hệ thống đã thông báo khi đăng ký thành công. Ví dụ: 0007-15802497<br>Nếu không nhớ, hãy xem lại ở Mục Thống kê.',
                 depGuide1: 'Các đội đã đăng ký tham gia vui lòng đóng <b>tiền ký quỹ 100.000 đồng/đội</b> nhằm đảm bảo cam kết tham gia cuộc thi.',
                 depGuide2: 'Khoản tiền ký quỹ sẽ được <b>hoàn trả đầy đủ sau khi cuộc thi kết thúc</b>.',
                 depGuide3: 'Trường hợp đội <b>hủy đăng ký, không tham gia hoặc vắng mặt tại thời điểm thi đấu</b>, khoản tiền ký quỹ sẽ <b>không được hoàn lại</b>.',
@@ -1007,7 +1019,7 @@
                 errDupId: 'Trong cùng một đội không được có mã nhân viên trùng nhau.',
                 errPrefix: 'Không thể đăng ký: ',
                 errConn: 'Có lỗi kết nối. Vui lòng thử lại.',
-                successMsg: 'Đăng ký thành công!<br>Mã đăng ký: <b>{code}</b>'
+                successMsg: 'Đăng ký thành công! Dùng mã bên dưới là nội dung chuyển khoản ký quỹ<br>Mã đăng ký: <b>{code}</b>'
 
             },
 
@@ -1050,6 +1062,7 @@
                 lblAccName: 'Account name:',
                 lblAccNum: 'Account number:',
                 lblBank: 'Bank:',
+                transferContent: '<b>Transfer content:</b> &lt;Enter registration code&gt; provided by the system upon successful registration. Example: 0007-15802497<br>If forgotten, check the Stats section.',
                 depGuide1: 'Registered teams are required to pay a <b>deposit of 100,000 VND/team</b> to ensure commitment to participate.',
                 depGuide2: 'The deposit will be <b>fully refunded after the event ends</b>.',
                 depGuide3: 'If a team <b>cancels registration, does not participate, or is absent at competition time</b>, the deposit will <b>not be refunded</b>.',
@@ -1081,7 +1094,7 @@
                 errDupId: 'Duplicate employee IDs are not allowed within the same team.',
                 errPrefix: 'Registration failed: ',
                 errConn: 'Connection error. Please try again.',
-                successMsg: 'Registration successful!<br>Registration code: <b>{code}</b>'
+                successMsg: 'Registration successful! Use the code below as the deposit transfer details.<br>Registration code: <b>{code}</b>'
 
             }
 
@@ -1551,7 +1564,7 @@
       <div class="team">
 
         <div class="team-title">
-          ${esc(row.team_name)}
+          ${esc(row.team_name)} <span class="reg-code">${esc(row.registration_code || '')}</span>
         </div>
 
         <div class="small">
